@@ -5,8 +5,116 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>app</title>
   </head>
-  <body>
+<!--  <body>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div id="test">
+        {{message}}
+    </div>
   </body>
-</html>
+</html> -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+  // var test = new Vue({
+  //   el: '#test',
+  //   data: {
+  //     message: 'helloworld'
+  //   }
+  // });
+</script>
+<div id="app-5">
+    <p>{{ message }}</p>
+    <input v-model='message'>
+    <button v-on:click='alertMessage'>あらーと</button>
+</div>
+<script>
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    alertMessage: function() {
+      alert(this.message);
+    }
+  }
+})
+
+</script>
+
+<div id="app-6">
+  <ol>
+    <todo-item v-for="item in itemList" v-bind:todo="item" v-bind:key="item.id">
+  </ol>
+  <ol>
+      <todo-item2 v-for="item in itemList" v-bind:aaaa="item" v-bind:key="item.id">
+  </ol>
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+</div>
+
+<div id="app-7">
+  <component-a></component-a>
+  <p>{{num}}</p>
+  <button v-on:click="addNum">加算</button>
+</div>
+<script>
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{todo.text}}</li>'
+})
+
+Vue.component('todo-item2', {
+  props: ['aaaa'],
+  template: '<li>{{aaaa.text}}完了</li>'
+})
+
+Vue.component('app-header', {
+  template: '<div>ヘッダー</div>'
+})
+
+Vue.component('app-sidebar', {
+  template: '<div>サイドバー</div>'
+})
+
+var app6 = new Vue({
+  el: "#app-6",
+  data: {
+    itemList: [
+      {id:1, text: "一人目"},
+      {id:2, text: "二人目"},
+      {id:3, text: "３人目"},
+      {id:4, text: "四人目"},
+    ]
+  }
+})
+//ローカルコンポーネントの作成
+var localA = Vue.component('local-a', {
+  template: "<h1>ローカル</h1>"
+})
+
+var app7 = new Vue({
+  el: "#app-7",
+  data: {
+    num: 0
+  },
+  components: {
+    'component-a': localA,
+    'component-a': localA
+  },
+  //createdフック：インスタンス作成時に実行
+  created: function(){
+    console.log("作成しました");
+  },
+  methods: {
+    addNum: function(){
+      if (this.num >= 10) {
+        Object.freeze(this.num)
+        alert("上限に達しました！");
+      } else {
+        this.num += 1
+      }
+    }
+  }
+})
+</script>
+
